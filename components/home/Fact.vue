@@ -13,7 +13,6 @@ async function getNewFact() {
   } catch (err: any) {
     isLoading.value = false
     error.value = err
-    console.error(err)
   } finally {
     isLoading.value = false
   }
@@ -36,7 +35,7 @@ onBeforeMount(async () => {
         <Icon name="material-symbols:refresh" class="animate-spin" /> Finding some cacts 🐱...
       </p>
       <p v-else class="text-secondary text-xl md:text-2xl lg:text-3xl xl:text-4xl">
-        {{ fact }}
+        {{ !isEmpty(error) ? `It's seems we had an error 😱. ${error}` : fact }}
       </p>
     </div>
     <div>

@@ -1,8 +1,9 @@
 <script setup lang="ts">
-const { apiBaseUrl} = useAppConfig()
+const { apiBaseUrl } = useAppConfig()
 
-const fact = ref<string|unknown>()
+const fact = ref<string | unknown>()
 const isLoading = ref<boolean>(false)
+const error = ref<string>()
 
 async function getNewFact() {
   try {
@@ -11,6 +12,7 @@ async function getNewFact() {
     fact.value = (data as any).data[0]
   } catch (err: any) {
     isLoading.value = false
+    error.value = err
     console.error(err)
   } finally {
     isLoading.value = false
@@ -23,24 +25,25 @@ onBeforeMount(async () => {
 </script>
 
 <template>
-  <div class="flex flex-col gap-8 w-full md:w-5/12">
+  <div class="flex flex-col gap-4 lg:gap-8 w-full md:w-5/12">
     <div>
-      <h2 class="text-primary uppercase text-4xl font-bold">
+      <h2 class="text-primary uppercase text-xl md:text-2xl lg:text-3xl xl:text-4xl font-bold">
         Cat fact:
       </h2>
     </div>
     <div>
-      <p v-if="isLoading" class="text-secondary text-4xl">
+      <p v-if="isLoading" class="text-secondary text-xl md:text-2xl lg:text-3xl xl:text-4xl">
         <Icon name="material-symbols:refresh" class="animate-spin" /> Finding some cacts 🐱...
       </p>
-      <p v-else class="text-secondary text-4xl">
+      <p v-else class="text-secondary text-xl md:text-2xl lg:text-3xl xl:text-4xl">
         {{ fact }}
       </p>
     </div>
     <div>
-      <button @click="getNewFact" :disabled="isLoading" :class="`bg-secondary text-default px-8 py-4 font-bold text-4xl flex items-center gap-5 uppercase shadow-xl rounded-xl hover:bg-primary hover:text-normal transition-colors ${isLoading ? 'hover:cursor-not-allowed' : 'hover:cursor-pointer'}`">
+      <button @click="getNewFact" :disabled="isLoading"
+        :class="`bg-secondary text-default px-4 lg:px-8 py-2 lg:py-4 font-bold text-xl md:text-2xl lg:text-3xl xl:text-4xl flex items-center gap-2 lg:gap-4 uppercase shadow-xl rounded-xl hover:bg-primary hover:text-normal transition-colors ${isLoading ? 'hover:cursor-not-allowed' : 'hover:cursor-pointer'}`">
         <Icon name="material-symbols:refresh" :class="`${isLoading ? 'animate-spin' : ''}`" />
-          Get a random cat fact
+        Get a random cat fact
       </button>
     </div>
   </div>

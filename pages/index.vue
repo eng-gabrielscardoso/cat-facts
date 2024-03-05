@@ -1,5 +1,33 @@
+<script setup lang="ts">
+const { apiBaseUrl} = useAppConfig()
+
+const fact = ref<string|unknown>()
+
+async function getNewFact() {
+  try {
+    const data = await $fetch(apiBaseUrl as string)
+    
+    fact.value = (data as any).data[0]
+  } catch (err: any) {
+    console.error(err)
+  }
+}
+
+onBeforeMount(async () => {
+  if (isNil(fact.value)) {
+    getNewFact()
+  }
+})
+</script>
+
 <template>
   <div>
-    Lorem ipsum dolor sit amet consectetur adipisicing elit. Vel, at eaque doloremque voluptas, quo dignissimos corporis id vitae exercitationem eveniet ullam odit fugit necessitatibus? Reprehenderit vel nulla quibusdam consectetur illo.
+    <p>
+      {{fact}}
+    </p>
+    <button @click="getNewFact">
+      <Icon name="ic:baseline-refresh" />
+      Get a random cat fact
+    </button>
   </div>
 </template>

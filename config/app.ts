@@ -1,5 +1,9 @@
-import app from "~/app.config";
+interface AppConfigContract {
+  company: string
+  apiBaseUrl: string
+}
 
-export default defineAppConfig({
-  ...app
-})
+export default {
+  company: 'DefSafe',
+  apiBaseUrl: "https://meowfacts.herokuapp.com/",
+} satisfies AppConfigContract

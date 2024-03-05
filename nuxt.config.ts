@@ -4,6 +4,7 @@ export default defineNuxtConfig({
     '@nuxt/image',
     '@nuxtjs/google-fonts',
     '@nuxtjs/tailwindcss',
+    '@pinia/nuxt',
     '@vueuse/nuxt',
     'nuxt-lodash',
     'nuxt-icon',

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const { apiBaseUrl } = useAppConfig()
+const cache = useCacheStore()
 
 const fact = ref<string | unknown>()
 const isLoading = ref<boolean>(false)
@@ -19,7 +19,19 @@ async function getNewFact() {
 }
 
 onBeforeMount(async () => {
-  if (isNil(fact.value)) getNewFact()
+  if (isEmpty(cache.facts)) {
+    try {
+      const { data } = await useFetch('/api/facts')
+
+      await cache.updateCache(data as unknown as any[])
+
+      fact.value = cache.getRandomFact()
+    } catch (err: any) {
+      error.value = err
+    }
+  } else {
+    fact.value = cache.getRandomFact()
+  }
 })
 </script>
 

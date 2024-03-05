@@ -5,5 +5,5 @@ interface AppConfigContract {
 
 export default {
   company: 'DefSafe',
-  apiBaseUrl: "https://meowfacts.herokuapp.com/",
+  apiBaseUrl: "https://meowfacts.herokuapp.com",
 } satisfies AppConfigContract

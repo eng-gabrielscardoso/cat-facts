@@ -8,8 +8,8 @@ const error = ref<string>()
 async function getNewFact() {
   try {
     isLoading.value = true
-    const data = await $fetch(apiBaseUrl as string)
-    fact.value = (data as any).data[0]
+    const { data } = await useFetch('/api/fact')
+    fact.value = data
   } catch (err: any) {
     isLoading.value = false
     error.value = err

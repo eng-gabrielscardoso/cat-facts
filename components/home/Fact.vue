@@ -5,34 +5,45 @@ const fact = ref<string | unknown>()
 const isLoading = ref<boolean>(false)
 const error = ref<string>()
 
-async function getNewFact() {
-  try {
-    isLoading.value = true
-    const { data } = await useFetch('/api/fact')
-    fact.value = data
-  } catch (err: any) {
-    isLoading.value = false
-    error.value = err
-  } finally {
-    isLoading.value = false
-  }
-}
-
-onBeforeMount(async () => {
+onMounted(async () => {
   if (isEmpty(cache.facts)) {
     try {
-      const { data } = await useFetch('/api/facts')
-
-      await cache.updateCache(data as unknown as any[])
-
+      isLoading.value = true
+      await cache.feedCache()
       fact.value = cache.getRandomFact()
     } catch (err: any) {
+      isLoading.value = false
       error.value = err
+    } finally {
+      isLoading.value = false
     }
   } else {
     fact.value = cache.getRandomFact()
   }
 })
+
+async function getNewFact() {
+  try {
+    isLoading.value = true
+
+    if (!isEmpty(cache.facts)) {
+      fact.value = cache.getRandomFact()
+      cache.removeFromCache(fact.value)
+    } else {
+      const { data } = await useFetch('/api/fact')
+      fact.value = data
+    }
+  } catch (err: any) {
+    isLoading.value = false
+    error.value = err
+  } finally {
+    isLoading.value = false
+
+    if (isEmpty(cache.facts)) {
+      cache.feedCache()
+    }
+  }
+}
 </script>
 
 <template>
@@ -44,7 +55,7 @@ onBeforeMount(async () => {
     </div>
     <div>
       <p v-if="isLoading" class="text-secondary text-xl md:text-2xl lg:text-3xl xl:text-4xl">
-        <Icon name="material-symbols:refresh" class="animate-spin" /> Finding some cacts 🐱...
+        <Icon name="material-symbols:refresh" class="animate-spin" /> Finding some facts 🐱...
       </p>
       <p v-else class="text-secondary text-xl md:text-2xl lg:text-3xl xl:text-4xl">
         {{ !isEmpty(error) ? `It's seems we had an error 😱. ${error}` : fact }}

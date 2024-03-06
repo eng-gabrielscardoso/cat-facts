@@ -8,6 +8,9 @@ dependencies:
   '@nuxt/image':
     specifier: ^1.4.0
     version: 1.4.0
+  '@nuxtjs/robots':
+    specifier: ^3.0.0
+    version: 3.0.0
   '@pinia/nuxt':
     specifier: ^0.5.1
     version: 0.5.1(vue@3.4.21)
@@ -1260,6 +1263,17 @@ packages:
       - rollup
       - supports-color
     dev: true
+
+  /@nuxtjs/robots@3.0.0:
+    resolution: {integrity: sha512-qsHGW1KXBvV5Kq7u3huPnFCUTbHS4Fk8Za2mNPgmUXcwLgp3exvhPtdZfIdjrCF/aZk3A8OZONNmGghs6CecBA==}
+    dependencies:
+      '@nuxt/kit': 3.10.3
+      h3: 1.11.1
+    transitivePeerDependencies:
+      - rollup
+      - supports-color
+      - uWebSockets.js
+    dev: false
 
   /@nuxtjs/tailwindcss@6.11.4:
     resolution: {integrity: sha512-09cksgZD4seQj054Z/BeiwFg1bzQTol8KPulLDLGnmMTkEi21vj/z+WlXQRpVbN1GS9+oU9tcSsu2ufXCM3DBg==}

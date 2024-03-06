@@ -54,15 +54,17 @@ async function getNewFact() {
       </h2>
     </div>
     <div>
-      <p v-if="isLoading" class="text-secondary text-xl md:text-2xl lg:text-3xl xl:text-4xl">
-        <Icon name="material-symbols:refresh" class="animate-spin" /> Finding some facts 🐱...
-      </p>
-      <p v-else class="text-secondary text-xl md:text-2xl lg:text-3xl xl:text-4xl">
-        {{ !isEmpty(error) ? `It's seems we had an error 😱. ${error}` : fact }}
-      </p>
+      <Transition name="fade">
+        <p v-if="isLoading"class="text-secondary text-xl md:text-2xl lg:text-3xl xl:text-4xl">
+          <Icon name="material-symbols:refresh" class="animate-spin" /> Finding some facts 🐱...
+        </p>
+        <p v-else class="text-secondary text-xl md:text-2xl lg:text-3xl xl:text-4xl transition-all">
+          {{ !isEmpty(error) ? `It's seems we had an error 😱. ${error}` : fact }}
+        </p>
+      </Transition>
     </div>
     <div>
-      <button @click="getNewFact" :disabled="isLoading"
+      <button @click="getNewFact()" :disabled="isLoading"
         :class="`bg-secondary text-default px-4 lg:px-8 py-2 lg:py-4 font-bold text-xl md:text-2xl lg:text-3xl xl:text-4xl flex items-center gap-2 lg:gap-4 uppercase shadow-xl rounded-xl hover:bg-primary hover:text-normal transition-colors ${isLoading ? 'hover:cursor-not-allowed' : 'hover:cursor-pointer'}`">
         <Icon name="material-symbols:refresh" :class="`${isLoading ? 'animate-spin' : ''}`" />
         Get a random cat fact
@@ -70,3 +72,15 @@ async function getNewFact() {
     </div>
   </div>
 </template>
+
+<style>
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+</style>
